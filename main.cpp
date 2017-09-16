@@ -100,7 +100,7 @@ void printVector(vector<Thing> things){
 }
 
 bool compareThingsById(Thing a, Thing b){
-    return a.id < b.id;
+    return a.id <= b.id;
 }
 
 void merge(vector<Thing>& values, int lowest, int highest, int middle, function<bool(Thing, Thing)> comp){
