@@ -90,16 +90,22 @@ public:
 };
 
 Thing::Thing(int id) {
-this->id = id;
+    this->id = id;
+}
+
+void printVector(vector<Thing> things){
+    for(unsigned int i = 0; i < things.size(); i++){
+        cout << things[i].id << ", " << things[i].num << endl;
+    }
 }
 
 bool compareThingsById(Thing a, Thing b){
     return a.id < b.id;
 }
 
-void merge(vector<Thing>& values, int lowest, int highest, int middle, function<bool(Thing a, Thing b)> comp){
+void merge(vector<Thing>& values, int lowest, int highest, int middle, function<bool(Thing, Thing)> comp){
 
-    vector<int> newValues;
+    vector<Thing> newValues;
 
     int lowIndex = lowest;
     int midIndex = middle + 1;
@@ -131,7 +137,7 @@ void merge(vector<Thing>& values, int lowest, int highest, int middle, function<
     }
 }
 
-void mergeSortRecursive(vector<Thing>& values, int lowestIndex, int highestIndex, function<bool(Thing a, Thing b)> comp){
+void mergeSortRecursive(vector<Thing>& values, int lowestIndex, int highestIndex, function<bool(Thing, Thing)> comp){
 
     int middleIndex;
 
@@ -146,7 +152,7 @@ void mergeSortRecursive(vector<Thing>& values, int lowestIndex, int highestIndex
 
 }
 
-void mergeSort(vector<Thing>& values, function<bool(Thing a, Thing b)> comp){
+void mergeSort(vector<Thing>& values, function<bool(Thing, Thing)> comp){
     int lowestIndex = 0;
     int highestIndex = values.size()-1;
 
@@ -155,23 +161,17 @@ void mergeSort(vector<Thing>& values, function<bool(Thing a, Thing b)> comp){
 
 int main(){
 
-    vector<int> nums;
+    vector<Thing> nums;
     for(int i = 0; i < 13; i++){
-        nums.push_back(rand() % 11);
+        Thing m(rand() % 11);
+        nums.push_back(m);
+    }
+    for(unsigned int i = 0; i < nums.size(); i++){
+        nums[i].num = i;
     }
 
-    printVector(nums, 0, nums.size()-1);
-
-    mergeSort(nums);
-    printVector(nums, 0, nums.size()-1);
-    /*
-    mergeSort(nums);
-    printVector(nums, 0, nums.size()-1);
-    mergeSort(nums);
-    printVector(nums, 0, nums.size()-1);
-    mergeSort(nums);
-    printVector(nums, 0, nums.size()-1);
-    mergeSort(nums);
-    printVector(nums, 0, nums.size()-1);
-    */
+    printVector(nums);
+    mergeSort(nums, compareThingsById);
+    cout << "sorted?" << endl;
+    printVector(nums);
 }
